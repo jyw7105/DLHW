@@ -7,59 +7,112 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             margin: 0;
-            padding: 50px 20px;
-            background-color: #f3f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff1f7;
         }
 
-        .quiz-box {
+        .app {
+            width: 90%;
             max-width: 650px;
-            margin: auto;
-            padding: 40px;
             background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 5px solid #ffd6e7;
+            border-radius: 30px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .star {
+            position: absolute;
+            font-size: 35px;
+        }
+
+        .star1 {
+            top: 15px;
+            left: 25px;
+        }
+
+        .star2 {
+            top: 20px;
+            right: 30px;
+        }
+
+        .star3 {
+            bottom: 20px;
+            left: 35px;
         }
 
         h1 {
-            font-size: 36px;
-            color: #2f5d8c;
-            margin-bottom: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 38px;
+            color: #ff7fab;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 25px;
         }
 
         #progress {
-            font-size: 18px;
-            color: #777;
-            margin-bottom: 20px;
+            display: inline-block;
+            background-color: #fff0a8;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #806d00;
+            margin-bottom: 25px;
+        }
+
+        .question-box {
+            background-color: #e8f7ff;
+            border-radius: 22px;
+            padding: 25px;
+            margin-bottom: 25px;
         }
 
         #question {
-            font-size: 28px;
+            font-size: 27px;
             font-weight: bold;
-            margin-bottom: 30px;
+            color: #4d7185;
+            margin: 0;
         }
 
         button {
             display: block;
-            width: 80%;
-            margin: 12px auto;
+            width: 85%;
+            margin: 13px auto;
             padding: 15px;
-            font-size: 22px;
-            border: none;
-            border-radius: 12px;
-            background-color: #dcecff;
+            font-size: 21px;
+            font-weight: bold;
+            border: 3px solid #cde9ff;
+            border-radius: 18px;
+            background-color: #f4fbff;
+            color: #52758c;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         button:hover {
-            background-color: #bcdcff;
+            background-color: #d9f1ff;
+            transform: scale(1.03);
         }
 
         #feedback {
-            min-height: 60px;
+            min-height: 55px;
             margin-top: 25px;
-            font-size: 20px;
+            padding: 12px;
+            border-radius: 15px;
+            background-color: #fff7fb;
+            color: #ff6699;
+            font-size: 18px;
             line-height: 1.5;
         }
     </style>
@@ -67,13 +120,27 @@
 
 <body>
 
-    <div class="quiz-box">
+    <div class="app">
 
-        <h1>Vocabulary Quiz</h1>
+        <div class="star star1">⭐</div>
+        <div class="star star2">🌸</div>
+        <div class="star star3">⭐</div>
 
-        <div id="progress">Question 1 of 5</div>
+        <h1>🌷 Word Garden 🌷</h1>
 
-        <p id="question">What does "break through" mean?</p>
+        <div class="subtitle">
+            Let's learn English words!
+        </div>
+
+        <div id="progress">
+            Question 1 of 5
+        </div>
+
+        <div class="question-box">
+            <p id="question">
+                What does "break through" mean?
+            </p>
+        </div>
 
         <button id="button1"></button>
         <button id="button2"></button>
@@ -94,6 +161,7 @@
                 hint: "It means to overcome a difficulty and make progress.",
                 explanation: "Break through means to overcome a difficulty and succeed."
             },
+
             {
                 word: "find out",
                 correct: "discover",
@@ -101,6 +169,7 @@
                 hint: "It means to learn information about something.",
                 explanation: "Find out means to discover or learn information."
             },
+
             {
                 word: "set up",
                 correct: "establish",
@@ -108,6 +177,7 @@
                 hint: "It means to create or arrange something.",
                 explanation: "Set up means to establish or arrange something."
             },
+
             {
                 word: "sort out",
                 correct: "organize",
@@ -115,6 +185,7 @@
                 hint: "It means to arrange things in order.",
                 explanation: "Sort out means to organize or solve something."
             },
+
             {
                 word: "pay attention to",
                 correct: "focus on",
@@ -126,6 +197,7 @@
 
         let currentQuestion = 0;
         let wrongAttempts = 0;
+
 
         function loadQuestion() {
 
@@ -166,7 +238,7 @@
             if (answer.toLowerCase() === q.correct.toLowerCase()) {
 
                 document.getElementById("feedback").innerText =
-                    "Correct! Great job!";
+                    "🌟 Correct! Great job! 🌟";
 
                 currentQuestion++;
 
@@ -176,14 +248,14 @@
 
                 } else {
 
-                    document.getElementById("question").innerText =
-                        "You finished all 5 questions!";
-
                     document.getElementById("progress").innerText =
-                        "Quiz Complete";
+                        "🎉 Quiz Complete! 🎉";
+
+                    document.getElementById("question").innerText =
+                        "You finished all 5 words!";
 
                     document.getElementById("feedback").innerText =
-                        "Great job!";
+                        "🌸 Amazing! You did a great job! 🌸";
 
                     document.getElementById("button1").style.display = "none";
                     document.getElementById("button2").style.display = "none";
@@ -197,13 +269,13 @@
                 if (wrongAttempts === 1) {
 
                     document.getElementById("feedback").innerText =
-                        "Hint: " + q.hint + " Try again!";
+                        "💡 Hint: " + q.hint + " Try again!";
 
                 } else {
 
                     document.getElementById("feedback").innerText =
-                        "The answer is " + q.correct + ". " + q.explanation;
-
+                        "📖 The answer is " + q.correct +
+                        ". " + q.explanation;
                 }
             }
         }
