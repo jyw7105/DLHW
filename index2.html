@@ -2,149 +2,217 @@
 <html>
 
 <head>
-    <title>My Second English Learning App</title>
+    <title>Vocabulary Escape</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background: #151922;
+            color: white;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fff1f7;
         }
 
-        .app {
+        .game {
             width: 90%;
-            max-width: 650px;
-            background-color: white;
-            border: 5px solid #ffd6e7;
-            border-radius: 30px;
+            max-width: 720px;
+            background-color: #202632;
+            border: 1px solid #394352;
+            border-radius: 24px;
             padding: 35px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
         }
 
-        .star {
-            position: absolute;
-            font-size: 35px;
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .star1 {
-            top: 15px;
-            left: 25px;
+        .mission {
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #8fa3bd;
         }
 
-        .star2 {
-            top: 20px;
-            right: 30px;
-        }
-
-        .star3 {
-            bottom: 20px;
-            left: 35px;
-        }
-
-        h1 {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            font-size: 38px;
-            color: #ff7fab;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            color: #888;
-            margin-bottom: 25px;
-        }
-
-        #progress {
-            display: inline-block;
-            background-color: #fff0a8;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 16px;
+        .escape {
+            font-size: 15px;
+            color: #7ee2c0;
             font-weight: bold;
-            color: #806d00;
+        }
+
+        .bar {
+            width: 100%;
+            height: 8px;
+            background-color: #343d4b;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 35px;
+        }
+
+        #progressBar {
+            width: 20%;
+            height: 100%;
+            background-color: #7ee2c0;
+            transition: width 0.4s;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 34px;
+            letter-spacing: 3px;
+        }
+
+        .title p {
+            color: #8995a7;
+            margin-top: 10px;
+        }
+
+        .question-card {
+            background-color: #181e27;
+            border: 1px solid #343e4d;
+            border-radius: 18px;
+            padding: 35px 25px;
+            text-align: center;
             margin-bottom: 25px;
         }
 
-        .question-box {
-            background-color: #e8f7ff;
-            border-radius: 22px;
-            padding: 25px;
-            margin-bottom: 25px;
+        .word-label {
+            color: #7ee2c0;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
         }
 
         #question {
-            font-size: 27px;
+            font-size: 28px;
             font-weight: bold;
-            color: #4d7185;
             margin: 0;
         }
 
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
         button {
-            display: block;
-            width: 85%;
-            margin: 13px auto;
-            padding: 15px;
-            font-size: 21px;
-            font-weight: bold;
-            border: 3px solid #cde9ff;
-            border-radius: 18px;
-            background-color: #f4fbff;
-            color: #52758c;
+            padding: 18px 10px;
+            border-radius: 14px;
+            border: 1px solid #465365;
+            background-color: #293240;
+            color: white;
+            font-size: 17px;
             cursor: pointer;
             transition: 0.2s;
         }
 
         button:hover {
-            background-color: #d9f1ff;
-            transform: scale(1.03);
+            background-color: #344052;
+            border-color: #7ee2c0;
+            transform: translateY(-2px);
         }
 
         #feedback {
-            min-height: 55px;
-            margin-top: 25px;
-            padding: 12px;
-            border-radius: 15px;
-            background-color: #fff7fb;
-            color: #ff6699;
-            font-size: 18px;
+            min-height: 65px;
+            margin: 25px 0 0;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: #252e3a;
+            color: #c8d1dd;
+            text-align: center;
             line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .hint {
+            color: #ffd479;
+        }
+
+        .correct {
+            color: #7ee2c0;
+        }
+
+        .complete {
+            text-align: center;
+        }
+
+        .complete h2 {
+            color: #7ee2c0;
+            font-size: 32px;
+        }
+
+        @media (max-width: 600px) {
+            .game {
+                padding: 25px 18px;
+            }
+
+            .choices {
+                grid-template-columns: 1fr;
+            }
+
+            #question {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="app">
+    <div class="game">
 
-        <div class="star star1">⭐</div>
-        <div class="star star2">🌸</div>
-        <div class="star star3">⭐</div>
+        <div class="top">
+            <div class="mission">
+                MISSION <span id="missionNumber">01</span> / 05
+            </div>
 
-        <h1>🌷 Word Garden 🌷</h1>
-
-        <div class="subtitle">
-            Let's learn English words!
+            <div class="escape">
+                ESCAPE MODE
+            </div>
         </div>
 
-        <div id="progress">
-            Question 1 of 5
+        <div class="bar">
+            <div id="progressBar"></div>
         </div>
 
-        <div class="question-box">
+        <div class="title">
+            <h1>VOCABULARY ESCAPE</h1>
+            <p>Complete all five missions to escape.</p>
+        </div>
+
+        <div class="question-card">
+
+            <div class="word-label">
+                WORD CHALLENGE
+            </div>
+
             <p id="question">
                 What does "break through" mean?
             </p>
+
         </div>
 
-        <button id="button1"></button>
-        <button id="button2"></button>
-        <button id="button3"></button>
+        <div class="choices">
+
+            <button id="button1"></button>
+            <button id="button2"></button>
+            <button id="button3"></button>
+
+        </div>
 
         <h3 id="feedback"></h3>
 
@@ -154,6 +222,7 @@
     <script>
 
         const questions = [
+
             {
                 word: "break through",
                 correct: "succeed",
@@ -193,7 +262,9 @@
                 hint: "It means to look or listen carefully.",
                 explanation: "Pay attention to means to focus on something carefully."
             }
+
         ];
+
 
         let currentQuestion = 0;
         let wrongAttempts = 0;
@@ -203,15 +274,23 @@
 
             const q = questions[currentQuestion];
 
-            document.getElementById("progress").innerText =
-                "Question " + (currentQuestion + 1) + " of 5";
+            document.getElementById("missionNumber").innerText =
+                String(currentQuestion + 1).padStart(2, "0");
+
+            document.getElementById("progressBar").style.width =
+                ((currentQuestion + 1) / questions.length * 100) + "%";
 
             document.getElementById("question").innerText =
                 'What does "' + q.word + '" mean?';
 
-            document.getElementById("button1").innerText = q.choices[0];
-            document.getElementById("button2").innerText = q.choices[1];
-            document.getElementById("button3").innerText = q.choices[2];
+            document.getElementById("button1").innerText =
+                q.choices[0];
+
+            document.getElementById("button2").innerText =
+                q.choices[1];
+
+            document.getElementById("button3").innerText =
+                q.choices[2];
 
             document.getElementById("button1").onclick = function () {
                 checkAnswer(q.choices[0]);
@@ -237,8 +316,8 @@
 
             if (answer.toLowerCase() === q.correct.toLowerCase()) {
 
-                document.getElementById("feedback").innerText =
-                    "🌟 Correct! Great job! 🌟";
+                document.getElementById("feedback").innerHTML =
+                    '<span class="correct">✓ Correct! Mission cleared.</span>';
 
                 currentQuestion++;
 
@@ -248,18 +327,7 @@
 
                 } else {
 
-                    document.getElementById("progress").innerText =
-                        "🎉 Quiz Complete! 🎉";
-
-                    document.getElementById("question").innerText =
-                        "You finished all 5 words!";
-
-                    document.getElementById("feedback").innerText =
-                        "🌸 Amazing! You did a great job! 🌸";
-
-                    document.getElementById("button1").style.display = "none";
-                    document.getElementById("button2").style.display = "none";
-                    document.getElementById("button3").style.display = "none";
+                    showComplete();
                 }
 
             } else {
@@ -268,16 +336,44 @@
 
                 if (wrongAttempts === 1) {
 
-                    document.getElementById("feedback").innerText =
-                        "💡 Hint: " + q.hint + " Try again!";
+                    document.getElementById("feedback").innerHTML =
+                        '<span class="hint">HINT</span><br>' +
+                        q.hint + "<br>Try again.";
 
                 } else {
 
-                    document.getElementById("feedback").innerText =
-                        "📖 The answer is " + q.correct +
-                        ". " + q.explanation;
+                    document.getElementById("feedback").innerHTML =
+                        "The answer is <strong>" +
+                        q.correct +
+                        "</strong>.<br>" +
+                        q.explanation;
                 }
             }
+        }
+
+
+        function showComplete() {
+
+            document.querySelector(".title").innerHTML =
+                '<div class="complete">' +
+                '<h2>ESCAPE COMPLETE</h2>' +
+                '<p>You cleared all 5 vocabulary missions.</p>' +
+                '</div>';
+
+            document.getElementById("question").innerText =
+                "MISSION ACCOMPLISHED";
+
+            document.getElementById("progressBar").style.width =
+                "100%";
+
+            document.getElementById("feedback").innerHTML =
+                '<span class="correct">✓ All missions cleared. Great job!</span>';
+
+            document.getElementById("button1").style.display = "none";
+            document.getElementById("button2").style.display = "none";
+            document.getElementById("button3").style.display = "none";
+
+            document.getElementById("missionNumber").innerText = "05";
         }
 
 
