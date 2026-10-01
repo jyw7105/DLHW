@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My second English Learning Apps</title>
+
+    <!-- CSS: Change how the app looks -->
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin: 50px;
+        }
+
+        button {
+            font-size: 26px;
+            padding: 18px;
+            margin: 5px;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HTML: Change what learners see -->
+
+    <h1>Vocabulary Quiz</h1>
+
+    <p id="question">What does "break through" mean?</p>
+
+    <button onclick="checkAnswer('participate')">
+        Participate in
+    </button>
+
+    <button onclick="checkAnswer('succeed')">
+        Succeed
+    </button>
+
+    <button onclick="checkAnswer('watch')">
+        Watch
+    </button>
+
+    <h3 id="feedback"></h3>
+
+
+    <!-- JavaScript: Change what happens -->
+
+    <script>
+
+        const questions = [
+            {
+                word: "break through",
+                correct: "succeed",
+                choices: ["participate", "succeed", "watch"],
+                hint: "It means to overcome a difficulty and make progress.",
+                explanation: "Break through means to overcome a difficulty and succeed."
+            },
+            {
+                word: "find out",
+                correct: "discover",
+                choices: ["discover", "build", "organize"],
+                hint: "It means to learn or get information about something.",
+                explanation: "Find out means to discover or learn information."
+            },
+            {
+                word: "set up",
+                correct: "establish",
+                choices: ["establish", "remove", "watch"],
+                hint: "It means to create or arrange something.",
+                explanation: "Set up means to establish or arrange something."
+            },
+            {
+                word: "sort out",
+                correct: "organize",
+                choices: ["organize", "break", "forget"],
+                hint: "It means to arrange things in an organized way.",
+                explanation: "Sort out means to organize or solve something."
+            },
+            {
+                word: "pay attention to",
+                correct: "focus on",
+                choices: ["focus on", "give away", "turn off"],
+                hint: "It means to listen or look carefully.",
+                explanation: "Pay attention to means to focus on something carefully."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let wrongAttempts = 0;
+
+        function loadQuestion() {
+
+            const q = questions[currentQuestion];
+
+            document.getElementById("question").innerText =
+                'What does "' + q.word + '" mean?';
+
+            const buttons = document.querySelectorAll("button");
+
+            buttons[0].innerText = q.choices[0];
+            buttons[0].onclick = function () {
+                checkAnswer(q.choices[0]);
+            };
+
+            buttons[1].innerText = q.choices[1];
+            buttons[1].onclick = function () {
+                checkAnswer(q.choices[1]);
+            };
+
+            buttons[2].innerText = q.choices[2];
+            buttons[2].onclick = function () {
+                checkAnswer(q.choices[2]);
+            };
+
+            document.getElementById("feedback").innerText = "";
+            wrongAttempts = 0;
+        }
+
+        function checkAnswer(answer) {
+
+            const q = questions[currentQuestion];
+
+            if (answer === q.correct) {
+
+                document.getElementById("feedback").innerText =
+                    "맞았어!";
+
+                currentQuestion++;
+
+                if (currentQuestion < questions.length) {
+                    setTimeout(loadQuestion, 1000);
+                } else {
+                    document.getElementById("feedback").innerText =
+                        "Great job! You finished all 5 words!";
+                }
+
+            } else {
+
+                wrongAttempts++;
+
+                if (wrongAttempts === 1) {
+
+                    document.getElementById("feedback").innerText =
+                        "Hint: " + q.hint + " Try again!";
+
+                } else {
+
+                    document.getElementById("feedback").innerText =
+                        "The answer is " + q.correct + ". " + q.explanation;
+
+                }
+            }
+        }
+
+    </script>
+
+</body>
+</html>
