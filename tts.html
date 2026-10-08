@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accent Studio</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(120, 150, 255, 0.18), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(180, 130, 255, 0.15), transparent 28%),
+        #f6f7fb;
+      color: #202338;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1000px, 92%);
+      margin: 0 auto;
+      padding: 55px 0 70px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: #202338;
+      color: white;
+      font-size: 27px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 25px rgba(32, 35, 56, 0.18);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      letter-spacing: -1.5px;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: #73778b;
+      font-size: 16px;
+    }
+
+    .input-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #e7e8ef;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 15px 45px rgba(35, 40, 70, 0.07);
+      margin-bottom: 25px;
+    }
+
+    .input-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 145px;
+      resize: vertical;
+      border: 1px solid #dddfea;
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 17px;
+      line-height: 1.6;
+      font-family: inherit;
+      outline: none;
+      color: #202338;
+      background: #fafbfe;
+      transition: 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #777df5;
+      box-shadow: 0 0 0 4px rgba(119, 125, 245, 0.1);
+      background: white;
+    }
+
+    textarea::placeholder {
+      color: #a4a7b5;
+    }
+
+    .input-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      gap: 10px;
+    }
+
+    .counter {
+      color: #999cad;
+      font-size: 13px;
+    }
+
+    .clear-btn {
+      border: none;
+      background: transparent;
+      color: #777b90;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .clear-btn:hover {
+      color: #202338;
+    }
+
+    .accent-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .accent-card {
+      background: white;
+      border-radius: 24px;
+      padding: 25px;
+      border: 1px solid #e7e8ef;
+      box-shadow: 0 15px 40px rgba(35, 40, 70, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .accent-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 5px;
+    }
+
+    .american::before {
+      background: #6875e8;
+    }
+
+    .british::before {
+      background: #d76a8a;
+    }
+
+    .accent-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .accent-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .flag {
+      width: 45px;
+      height: 45px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      background: #f3f4ff;
+    }
+
+    .british .flag {
+      background: #fff2f6;
+    }
+
+    .accent-name h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .accent-name p {
+      margin: 4px 0 0;
+      color: #9295a6;
+      font-size: 13px;
+    }
+
+    .voice-status {
+      font-size: 11px;
+      color: #9295a6;
+      background: #f5f6f9;
+      padding: 6px 9px;
+      border-radius: 20px;
+    }
+
+    .sentence-preview {
+      background: #f7f8fb;
+      border-radius: 15px;
+      padding: 15px;
+      min-height: 82px;
+      color: #55596c;
+      line-height: 1.6;
+      font-size: 15px;
+      margin-bottom: 17px;
+      word-break: break-word;
+    }
+
+    .play-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    .play-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .play-btn:active {
+      transform: translateY(1px);
+    }
+
+    .american .play-btn {
+      background: #6875e8;
+    }
+
+    .british .play-btn {
+      background: #d76a8a;
+    }
+
+    .controls {
+      background: white;
+      border: 1px solid #e7e8ef;
+      border-radius: 20px;
+      margin-top: 20px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(35, 40, 70, 0.04);
+    }
+
+    .speed-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: #626679;
+    }
+
+    select {
+      border: 1px solid #dddfea;
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: white;
+      color: #34374a;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .stop-btn {
+      border: 1px solid #dddfea;
+      background: #fafbfc;
+      padding: 9px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #55596c;
+      font-weight: 600;
+    }
+
+    .stop-btn:hover {
+      background: #f0f1f5;
+    }
+
+    .tip {
+      text-align: center;
+      color: #9295a6;
+      font-size: 13px;
+      margin-top: 25px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      text-align: center;
+      color: #b0b2bd;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding-top: 35px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .accent-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .speed-area {
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header class="header">
+      <div class="logo">Aa</div>
+      <h1>Accent Studio</h1>
+      <div class="subtitle">
+        Type a sentence and compare American & British English
+      </div>
+    </header>
+
+    <section class="input-card">
+
+      <div class="input-title">Enter your sentence</div>
+
+      <textarea
+        id="sentence"
+        maxlength="500"
+        placeholder="Example: I would like to visit London someday."
+      ></textarea>
+
+      <div class="input-bottom">
+        <span class="counter">
+          <span id="count">0</span> / 500
+        </span>
+
+        <button class="clear-btn" onclick="clearText()">
+          Clear
+        </button>
+      </div>
+
+    </section>
+
+
+    <section class="accent-grid">
+
+      <!-- American English -->
+      <div class="accent-card american">
+
+        <div class="accent-top">
+
+          <div class="accent-name">
+            <div class="flag">🇺🇸</div>
+
+            <div>
+              <h2>American English</h2>
+              <p>United States</p>
+            </div>
+          </div>
+
+          <div class="voice-status" id="usStatus">
+            Voice ready
+          </div>
+
+        </div>
+
+        <div class="sentence-preview" id="usPreview">
+          Your sentence will appear here.
+        </div>
+
+        <button class="play-btn" onclick="speak('us')">
+          ▶ Play American
+        </button>
+
+      </div>
+
+
+      <!-- British English -->
+      <div class="accent-card british">
+
+        <div class="accent-top">
+
+          <div class="accent-name">
+            <div class="flag">🇬🇧</div>
+
+            <div>
+              <h2>British English</h2>
+              <p>United Kingdom</p>
+            </div>
+          </div>
+
+          <div class="voice-status" id="ukStatus">
+            Voice ready
+          </div>
+
+        </div>
+
+        <div class="sentence-preview" id="ukPreview">
+          Your sentence will appear here.
+        </div>
+
+        <button class="play-btn" onclick="speak('uk')">
+          ▶ Play British
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <div class="controls">
+
+      <div class="speed-area">
+        <span>Speaking speed</span>
+
+        <select id="speed">
+          <option value="0.75">0.75×</option>
+          <option value="0.9">0.9×</option>
+          <option value="1" selected>1.0×</option>
+          <option value="1.1">1.1×</option>
+          <option value="1.25">1.25×</option>
+        </select>
+      </div>
+
+      <button class="stop-btn" onclick="stopSpeaking()">
+        ■ Stop
+      </button>
+
+    </div>
+
+
+    <div class="tip">
+      Tip: Try the same sentence in both accents and listen for differences
+      in pronunciation and rhythm.
+    </div>
+
+    <div class="footer">
+      Accent Studio · English Pronunciation Practice
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const sentence = document.getElementById("sentence");
+    const count = document.getElementById("count");
+    const usPreview = document.getElementById("usPreview");
+    const ukPreview = document.getElementById("ukPreview");
+
+    let voices = [];
+
+    /*
+      Load voices provided by the browser.
+      Different browsers/operating systems provide different voices.
+    */
+    function loadVoices() {
+      voices = speechSynthesis.getVoices();
+
+      updateStatus("us", "Voice ready");
+      updateStatus("uk", "Voice ready");
+    }
+
+    speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+
+
+    /*
+      Update sentence preview while the visitor types.
+    */
+    sentence.addEventListener("input", function () {
+
+      const text = sentence.value.trim();
+
+      count.textContent = sentence.value.length;
+
+      if (text === "") {
+        usPreview.textContent = "Your sentence will appear here.";
+        ukPreview.textContent = "Your sentence will appear here.";
+      } else {
+        usPreview.textContent = text;
+        ukPreview.textContent = text;
+      }
+
+    });
+
+
+    /*
+      Find an American English voice.
+    */
+    function findAmericanVoice() {
+
+      const americanVoices = voices.filter(voice =>
+        voice.lang === "en-US"
+      );
+
+      if (americanVoices.length > 0) {
+        return americanVoices[0];
+      }
+
+      return voices.find(voice =>
+        voice.lang.startsWith("en")
+      );
+
+    }
+
+
+    /*
+      Find a British English voice.
+    */
+    function findBritishVoice() {
+
+      const britishVoices = voices.filter(voice =>
+        voice.lang === "en-GB"
+      );
+
+      if (britishVoices.length > 0) {
+        return britishVoices[0];
+      }
+
+      return voices.find(voice =>
+        voice.lang.startsWith("en")
+      );
+
+    }
+
+
+    /*
+      Speak the entered sentence.
+    */
+    function speak(accent) {
+
+      const text = sentence.value.trim();
+
+      if (!text) {
+        alert("Please enter a sentence first.");
+        sentence.focus();
+        return;
+      }
+
+      speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      const speed = Number(
+        document.getElementById("speed").value
+      );
+
+      utterance.rate = speed;
+      utterance.pitch = 1;
+
+      let voice;
+
+      if (accent === "us") {
+
+        voice = findAmericanVoice();
+
+        if (voice) {
+          utterance.voice = voice;
+          utterance.lang = "en-US";
+        } else {
+          utterance.lang = "en-US";
+        }
+
+        updateStatus("us", "Playing...");
+
+      } else {
+
+        voice = findBritishVoice();
+
+        if (voice) {
+          utterance.voice = voice;
+          utterance.lang = "en-GB";
+        } else {
+          utterance.lang = "en-GB";
+        }
+
+        updateStatus("uk", "Playing...");
+
+      }
+
+
+      utterance.onend = function () {
+
+        updateStatus("us", "Voice ready");
+        updateStatus("uk", "Voice ready");
+
+      };
+
+
+      utterance.onerror = function () {
+
+        updateStatus("us", "Voice ready");
+        updateStatus("uk", "Voice ready");
+
+        alert(
+          "Your browser could not play the pronunciation. " +
+          "Please try Chrome or Edge."
+        );
+
+      };
+
+
+      speechSynthesis.speak(utterance);
+    }
+
+
+    /*
+      Stop current pronunciation.
+    */
+    function stopSpeaking() {
+
+      speechSynthesis.cancel();
+
+      updateStatus("us", "Voice ready");
+      updateStatus("uk", "Voice ready");
+    }
+
+
+    /*
+      Clear the text box.
+    */
+    function clearText() {
+
+      sentence.value = "";
+
+      count.textContent = "0";
+
+      usPreview.textContent =
+        "Your sentence will appear here.";
+
+      ukPreview.textContent =
+        "Your sentence will appear here.";
+
+      stopSpeaking();
+
+      sentence.focus();
+    }
+
+
+    /*
+      Update the small status label.
+    */
+    function updateStatus(accent, text) {
+
+      if (accent === "us") {
+        document.getElementById("usStatus").textContent = text;
+      } else {
+        document.getElementById("ukStatus").textContent = text;
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
